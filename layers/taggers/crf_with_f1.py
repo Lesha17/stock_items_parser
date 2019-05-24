@@ -12,7 +12,7 @@ from allennlp.models.model import Model
 from allennlp.nn import InitializerApplicator, RegularizerApplicator
 import allennlp.nn.util as util
 from allennlp.training.metrics import CategoricalAccuracy, SpanBasedF1Measure, F1Measure
-
+import layers.utils.f1_support as f1_support
 
 @Model.register("crf_tagger_f1")
 class CrfTaggerWithMetric(CrfTagger):
@@ -42,24 +42,8 @@ class CrfTaggerWithMetric(CrfTagger):
                          verbose_metrics,
                          initializer,
                          regularizer)
-        for label, index in self.vocab.get_token_to_index_vocabulary('labels').items():
-            self.metrics["f1_" + label.replace(' ', '_')] = F1Measure(index)
+        f1_support.add_f1(self)
 
     def get_metrics(self, reset: bool = False):
-        result = {}
-        f1_sum = 0
-        f1_count = 0
-        for name, metric in self.metrics.items():
-            if name.startswith("f1"):
-                # With only true_negatives it could be 0 and break a metric
-                if metric._true_positives + metric._false_positives + metric._false_negatives > 0:
-                    precision, recall, f1_measure = metric.get_metric(reset=reset)
-                    f1_sum += f1_measure
-                    f1_count += 1
-            else:
-                result[name] = metric.get_metric(reset=reset)
-        if f1_count > 0:
-            result['f1_total'] = f1_sum / f1_count
-
-        return result
+        return f1_support.get_metrics(self, reset)
 

@@ -2,4 +2,4 @@
 output/
 .ipynb_checkpoints
 temp/
-*/__pycache__/*
+**/__pycache__/*

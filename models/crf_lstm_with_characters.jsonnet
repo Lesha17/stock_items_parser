@@ -18,8 +18,6 @@ local learning_rate = 0.1;
     },
     "model": {
         "type": "crf_tagger_f1",
-        #"label_encoding": "BIOUL",
-        #"calculate_span_f1": true,
         "text_field_embedder": {
             "tokens": {
                 "type": "embedding",

@@ -1,6 +1,9 @@
 // jsonnet allows local variables like this
-local embedding_dim = 6;
-local hidden_dim = 6;
+local embedding_dim = 10;
+
+local hidden_dims = [10, 20, 10];
+local num_layers = 3;
+
 local num_epochs = 100;
 local patience = 10;
 local batch_size = 20;
@@ -21,9 +24,13 @@ local learning_rate = 0.1;
             }
         },
         "encoder": {
-            "type": "lstm",
-            "input_size": embedding_dim,
-            "hidden_size": hidden_dim
+            "type": "feedforward",
+            "feedforward": {
+                "input_dim": embedding_dim,
+                "num_layers": num_layers,
+                "hidden_dims": hidden_dims,
+                "activations": "linear"
+            }
         }
     },
     "iterator": {
