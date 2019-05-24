@@ -1,8 +1,14 @@
-MATERIAL = ['Материал', 'Материал рукоятки']
+MATERIAL = ['Материал']
+MATERIAL2 = ['Материал рукоятки']
 
-TYPE = ['Тип', 'Тип головки', 'Резьба', 'Наконечник', 'Тип Заклепки', 'Тип анкера', 'Тип болта', 'Тип Шплинта',
-        'В комплекте', 'Форма', 'Вид декорации', 'Вид зажима', 'Тип цепи', 'Звено', 'Тип крепления',
-        'Размер']  # M / L
+TYPE_MAIN = ['Тип', 'Тип болта']
+
+TYPE1 = ['Тип головки', 'Тип цепи', 'Тип крепления']
+TYPE2 = ['Резьба', 'Тип Заклепки', 'Тип анкера', 'Вид зажима', 'Звено']
+TYPE3 = ['Наконечник', 'Тип Шплинта', 'Вид декорации']
+TYPE_SIZE = ['Размер']
+
+FORM = ['Форма', 'В комплекте']
 
 TYPE_ATTRIBUTES = ['С наружными зубцами', 'Для бетона', 'Универсальный', 'Левая резьба',
                    'Серьга', 'Набор', 'Мелкий шаг резьбы', 'Клипса', 'Изоляции',
@@ -48,7 +54,13 @@ DESTINATION = ['Назначение']
 
 TARGET_CHARACTERISTICS = {
     'MATERIAL': MATERIAL,
-    'TYPE': TYPE,
+    'MATERIAL2': MATERIAL2,
+    'TYPE_MAIN': TYPE_MAIN,
+    'TYPE1': TYPE1,
+    'TYPE2': TYPE2,
+    'TYPE3': TYPE3,
+    'TYPE_SIZE': TYPE_SIZE,
+    'FORM': FORM,
     'MODEL': MODEL,
     'COLOR': COLOR,
     'SIZE1': SIZE1,
@@ -61,6 +73,8 @@ TARGET_CHARACTERISTICS = {
     'PURPOSE': PURPOSE,
     'DESTINATION': DESTINATION
 }
+
+ORIGNAL_TO_AGGREGATED = { orig : aggr for aggr, chars in TARGET_CHARACTERISTICS.items() for orig in chars }
 
 CHARACTERISTICS = ['Материал', 'Материал рукоятки',
                    'Тип', 'Тип головки', 'Резьба', 'Наконечник', 'Тип Заклепки', 'Тип анкера', 'Тип болта',

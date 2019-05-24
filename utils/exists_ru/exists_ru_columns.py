@@ -7,3 +7,5 @@ CHARACTERISTICS = [
 ATTRIBUTES = [
     'RunFlat', 'Шипы'
 ]
+
+SIZES = ['Размерность', 'Размер']

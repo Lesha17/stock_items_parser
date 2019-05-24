@@ -43,6 +43,11 @@ def surround_with_spaces_words(s, regex, char):
 def surround_with_spaces_numbers(s, regex, char):
     return re.sub(r'(\d ?)' + regex + r'( ?\d)', r'\1 ' + char + r' \2', s)
 
+def separate_words_and_numbers(s):
+    s = re.sub(r'([^(\W|\d)])(\d)', r'\1 \2', s)
+    s = re.sub(r'(\d)([^(\W|\d)])', r'\1 \2', s)
+    return s
+
 def prepare_stable(s):
     s = s.lower()
     s = replace_comma_in_numbers(s)
@@ -59,6 +64,9 @@ def prepare_value(s):
     s = surround_with_spaces(s, ';', ';')
     s = surround_with_spaces(s, ',', ',')
     s = surround_with_spaces(s, r'\*', '*')
+    s = surround_with_spaces(s, '"', '"')
+    s = surround_with_spaces(s, '-', '-')
+    s = separate_words_and_numbers(s)
 
     return s
 

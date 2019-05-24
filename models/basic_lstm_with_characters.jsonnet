@@ -17,7 +17,7 @@ local learning_rate = 0.1;
         }
     },
     "model": {
-        "type": "lstm-tagger",
+        "type": "simple_tagger",
         "text_field_embedder": {
             "token_embedders": {
                 "tokens": {
