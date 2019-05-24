@@ -33,8 +33,9 @@ def replace_slash_in_numbers(s):
 
 
 def surround_with_spaces(s, regex, char):
-    return re.sub(r'(\w ?)' + regex + r'( ?\w)', r'\1 ' + char + r' \2', s)
-
+    s = re.sub(regex + r'(\w)', char + r' \1', s)
+    s = re.sub(r'(\w)' + regex, r'\1 ' + char, s)
+    return s
 
 def surround_with_spaces_words(s, regex, char):
     return re.sub(r'([^(\W|\d)] ?)' + regex + r'( ?[^(\W|\d)])', r'\1 ' + char + r' \2', s)
@@ -63,16 +64,16 @@ def prepare_value(s):
 
     s = surround_with_spaces(s, ';', ';')
     s = surround_with_spaces(s, ',', ',')
-    s = surround_with_spaces(s, r'\*', '*')
-    s = surround_with_spaces(s, '"', '"')
-    s = surround_with_spaces(s, '-', '-')
+    #s = surround_with_spaces(s, r'\*', '*')
+    #s = surround_with_spaces(s, '"', '"')
+    #s = surround_with_spaces(s, '-', '-')
     s = separate_words_and_numbers(s)
 
     return s
 
 
 def split(s):
-    tokens = re.split(r'\s', s)
+    tokens = re.split(r'\s|"', s)
     return [t for t in tokens if t is not None and t != '']
 
 def prepare_and_split(s):

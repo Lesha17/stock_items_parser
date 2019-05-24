@@ -16,8 +16,8 @@ from utils.exists_ru.exists_ru_columns import CHARACTERISTICS, ATTRIBUTES
 from layers.taggers import *
 from layers.taggers.crf_with_f1 import *
 
-params = Params.from_file('models/crf_lstm_with_characters.jsonnet')
-model = Model.load(params, 'output/models/crf_lstm_with_characters/exists_ru')
+params = Params.from_file('models/crf_lstm_characters_only.jsonnet')
+model = Model.load(params, 'output/models/crf_lstm_characters_only/exists_ru')
 
 reader_params = params.pop('dataset_reader')
 reader_type = reader_params.pop('type')
@@ -27,6 +27,16 @@ predictor = SentenceTaggerPredictor(model, dataset_reader = reader)
 predictor._tokenizer = CustomWordSplitter()
 
 test_df = pd.read_excel('temp/datasets/exists_ru/exists_ru_test.xlsx')
+
+def get_tags(title):
+    tokens = prepare_and_split(title)
+    token_positions = get_title_token_positions(prepare_stable(title), tokens)
+
+    tag_logits = predictor.predict(title)['logits']
+    tag_ids = np.argmax(tag_logits, axis=-1)
+    tags = [model.vocab.get_token_from_index(i, 'labels') for i in tag_ids]
+
+    return tags
 
 parsing_result_df = pd.DataFrame(columns=['title', 'title_labeled_correct', 'title_labeled'] + CHARACTERISTICS + ATTRIBUTES)
 for index, row in test_df.iterrows():
