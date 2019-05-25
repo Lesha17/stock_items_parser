@@ -23,5 +23,4 @@ models/train.sh simple_lstm_characters_only_qanet_encoder exists_ru models/simpl
 models/train.sh simple_lstm_characters_only_stacked_bidirectional_lstm exists_ru models/simple/characters_only/lstm/stacked_bidirectional_lstm.jsonnet
 models/train.sh simple_lstm_characters_only_stacked_self_attention exists_ru models/simple/characters_only/lstm/stacked_self_attention.jsonnet
 models/train.sh simple_lstm_characters_only_alternating_lstm exists_ru models/simple/characters_only/lstm/alternating_lstm.jsonnet
-models/train.sh simple_lstm_characters_only_alternating_lstm exists_ru models/simple/characters_only/lstm/alternating_lstm.jsonnet
 models/train.sh simple_lstm_characters_only_augmented_lstm exists_ru models/simple/characters_only/lstm/augmented_lstm.jsonnet
