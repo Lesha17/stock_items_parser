@@ -16,7 +16,7 @@ from utils.exists_ru.exists_ru_columns import CHARACTERISTICS, ATTRIBUTES
 from layers.taggers import *
 from layers.taggers.crf_with_f1 import *
 
-params = Params.from_file('models/crf_lstm_characters_only.jsonnet')
+params = Params.from_file('models/lstm.jsonnet')
 model = Model.load(params, 'output/models/crf_lstm_characters_only_additional_split/exists_ru')
 
 reader_params = params.pop('dataset_reader')

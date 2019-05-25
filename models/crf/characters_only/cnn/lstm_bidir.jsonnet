@@ -1,10 +1,12 @@
 // jsonnet allows local variables like this
-local char_embedding_dim = 10;
-local embedding_dim = char_embedding_dim;
-local hidden_dim = 20;
+local char_embedding_dim = 20;
+local word_embedding_dim = 40;
+local encoder_input_dim = word_embedding_dim * 2;
+local hidden_dim = 50;
+
 local num_epochs = 100;
 local patience = 10;
-local batch_size = 20;
+local batch_size = 100;
 local learning_rate = 0.1;
 
 {
@@ -23,16 +25,18 @@ local learning_rate = 0.1;
                     "embedding_dim": char_embedding_dim,
                 },
                 "encoder": {
-                    "type": "lstm",
-                    "input_size": char_embedding_dim,
-                    "hidden_size": char_embedding_dim
+                    "type": "cnn",
+                    "embedding_dim": char_embedding_dim,
+                    "num_filters": 10,
+                    "output_dim": word_embedding_dim
                 }
             }
         },
         "encoder": {
             "type": "lstm",
-            "input_size": embedding_dim,
-            "hidden_size": hidden_dim
+            "input_size": encoder_input_dim,
+            "hidden_size": hidden_dim,
+            "bidirectional": true
         }
     },
     "iterator": {

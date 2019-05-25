@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+models/train.sh crf_lstm_characters_only exists_ru models/crf/characters_only/lstm/lstm.jsonnet
+models/train.sh crf_lstm_characters_only_bidir exists_ru models/crf/characters_only/lstm/lstm_bidir.jsonnet
+models/train.sh crf_lstm_characters_only_multi_head_self_attention exists_ru models/crf/characters_only/lstm/multi_head_self_attention.jsonnet
+models/train.sh crf_lstm_characters_only_bidirectional_language_model_transformer exists_ru models/crf/characters_only/lstm/bidirectional_language_model_transformer.jsonnet
+models/train.sh crf_lstm_characters_only_qanet_encoder exists_ru models/crf/characters_only/lstm/qanet_encoder.jsonnet
+
+models/train.sh crf_lstm_characters_only_stacked_bidirectional_lstm exists_ru models/crf/characters_only/lstm/stacked_bidirectional_lstm.jsonnet
+models/train.sh crf_lstm_characters_only_stacked_self_attention exists_ru models/crf/characters_only/lstm/stacked_self_attention.jsonnet
+models/train.sh crf_lstm_characters_only_alternating_lstm exists_ru models/crf/characters_only/lstm/alternating_lstm.jsonnet
+models/train.sh crf_lstm_characters_only_alternating_lstm exists_ru models/crf/characters_only/lstm/alternating_lstm.jsonnet
+models/train.sh crf_lstm_characters_only_augmented_lstm exists_ru models/crf/characters_only/lstm/augmented_lstm.jsonnet
