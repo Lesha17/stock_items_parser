@@ -1,6 +1,6 @@
 // jsonnet allows local variables like this
 local char_embedding_dim = 20;
-local word_embedding_dim = 80;
+local word_embedding_dim = 40;
 local hidden_dim = 100;
 
 local num_epochs = 100;
@@ -12,7 +12,10 @@ local learning_rate = 0.1;
     "dataset_reader": {
         "type": "custom-dataset-reader",
         "token_indexers": {
-            "token_characters": { "type": "characters" }
+            "token_characters": {
+                "type": "characters",
+                "min_padding_length": 3
+            }
         }
     },
     "model": {
@@ -27,7 +30,8 @@ local learning_rate = 0.1;
                     "type": "cnn",
                     "embedding_dim": char_embedding_dim,
                     "num_filters": 20,
-                    "output_dim": word_embedding_dim
+                    "output_dim": word_embedding_dim,
+                    "ngram_filter_sizes": [2, 3]
                 }
             }
         },

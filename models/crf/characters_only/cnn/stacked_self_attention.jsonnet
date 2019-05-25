@@ -13,7 +13,10 @@ local learning_rate = 0.1;
     "dataset_reader": {
         "type": "custom-dataset-reader",
         "token_indexers": {
-            "token_characters": { "type": "characters" }
+            "token_characters": {
+                "type": "characters",
+                "min_padding_length": 3
+            }
         }
     },
     "model": {
@@ -27,15 +30,16 @@ local learning_rate = 0.1;
                 "encoder": {
                     "type": "cnn",
                     "embedding_dim": char_embedding_dim,
-                    "num_filters": 10,
-                    "output_dim": word_embedding_dim
+                    "num_filters": 20,
+                    "output_dim": word_embedding_dim,
+                    "ngram_filter_sizes": [2, 3]
                 }
             }
         },
         "encoder": {
             "type": "stacked_self_attention",
             "input_dim": encoder_input_dim,
-            "projection_dim": 10,
+            "projection_dim": 20,
             "hidden_dim": hidden_dim,
             "feedforward_hidden_dim": hidden_dim,
             "num_layers": 3,
