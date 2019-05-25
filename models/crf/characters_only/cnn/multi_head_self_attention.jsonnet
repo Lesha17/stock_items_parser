@@ -1,7 +1,7 @@
 // jsonnet allows local variables like this
 local char_embedding_dim = 20;
 local word_embedding_dim = 40;
-local encoder_input_dim = word_embedding_dim * 2;
+local encoder_input_dim = word_embedding_dim;
 local hidden_dim = 50;
 
 local num_epochs = 100;
