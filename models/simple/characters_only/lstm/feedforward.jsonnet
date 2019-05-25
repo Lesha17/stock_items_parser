@@ -17,7 +17,7 @@ local learning_rate = 0.1;
         }
     },
     "model": {
-        "type": "crf_tagger_f1",
+        "type": "simple_tagger_f1",
         "text_field_embedder": {
             "token_characters": {
                 "type": "character_encoding",
