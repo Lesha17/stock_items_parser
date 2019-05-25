@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
+# 1 - model name
+# 2 - dataset name
+# 3 -output file
 
-allennlp evaluate output/models/crf_lstm_characters_only/exists_ru/ --include-package layers -o '{"model":{"verbose_metrics": true}}' temp/datasets/exists_ru/exists_ru_other.xlsx
+mkdir -p $3/$2
+allennlp evaluate output/models/$1/$2/ --include-package layers -o '{"model":{"verbose_metrics": true}}' temp/datasets/$2/$2_other.xlsx --output-file $3/$2/$1.txt
