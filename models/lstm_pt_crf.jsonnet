@@ -1,10 +1,10 @@
 // jsonnet allows local variables like this
-local char_embedding_dim = 10;
-local word_embedding_dim = 40;
+local char_embedding_dim = 20;
+local word_embedding_dim = 20;
 local encoder_input_dim = word_embedding_dim * 2;
-local hidden_dim = 50;
+local hidden_dim = 100;
 
-local num_epochs = 100;
+local num_epochs = 500;
 local patience = 10;
 local batch_size = 100;
 local learning_rate = 0.1;
@@ -17,7 +17,7 @@ local learning_rate = 0.1;
         }
     },
     "model": {
-        "type": "simple_tagger_f1",
+        "type": "crf_tagger_f1",
         "text_field_embedder": {
             "token_characters": {
                 "type": "character_encoding",
@@ -32,12 +32,7 @@ local learning_rate = 0.1;
                 }
             }
         },
-        "encoder": {
-            "type": "lstm",
-            "input_size": encoder_input_dim,
-            "hidden_size": hidden_dim,
-            "bidirectional": true
-        }
+        "encoder": "pass_through"
     },
     "iterator": {
         "type": "basic",
@@ -46,7 +41,7 @@ local learning_rate = 0.1;
     "trainer": {
         "num_epochs": num_epochs,
         "optimizer": {
-            "type": "adam",
+            "type": "sgd",
             "lr": learning_rate
         },
         "patience": patience
