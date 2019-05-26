@@ -33,7 +33,10 @@ local learning_rate = 0.1;
                 }
             }
         },
-        "encoder": "pass_through"
+        "encoder": {
+            "type": "pass_through",
+            "input_dim": encoder_input_dim
+        }
     },
     "iterator": {
         "type": "basic",
@@ -42,7 +45,7 @@ local learning_rate = 0.1;
     "trainer": {
         "num_epochs": num_epochs,
         "optimizer": {
-            "type": "sgd",
+            "type": "adam",
             "lr": learning_rate
         },
         "patience": patience
