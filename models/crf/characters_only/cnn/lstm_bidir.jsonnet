@@ -2,7 +2,7 @@
 local char_embedding_dim = 20;
 local word_embedding_dim = 40;
 local encoder_input_dim = word_embedding_dim;
-local hidden_dim = 50;
+local hidden_dim = 100;
 
 local num_epochs = 100;
 local patience = 10;
@@ -50,7 +50,7 @@ local learning_rate = 0.1;
     "trainer": {
         "num_epochs": num_epochs,
         "optimizer": {
-            "type": "adam",
+            "type": "sgd",
             "lr": learning_rate
         },
         "patience": patience
