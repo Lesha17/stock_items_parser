@@ -5,3 +5,9 @@ models/train.sh cnn_pt_crf exists_ru models/cnn_pt_crf.jsonnet
 models/train.sh cnn_lstm_proj exists_ru models/cnn_lstm_proj.jsonnet
 models/train.sh cnn_lstm_crf exists_ru models/cnn_lstm_crf.jsonnet
 
+models/train.sh lstm_ff_proj exists_ru models/lstm_ff_proj.jsonnet
+models/train.sh lstm_pt_crf exists_ru models/lstm_pt_crf.jsonnet
+models/train.sh lstm_lstm_proj exists_ru models/lstm_lstm_proj.jsonnet
+models/train.sh lstm_lstm_crf exists_ru models/lstm_lstm_crf.jsonnet
+
+
