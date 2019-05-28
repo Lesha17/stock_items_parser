@@ -4,16 +4,18 @@ local word_embedding_dim = 20;
 local encoder_input_dim = 2 * word_embedding_dim;
 local hidden_dim = 100;
 
-local num_epochs = 500;
+local num_epochs = 80;
 local patience = 10;
 local batch_size = 100;
-local learning_rate = 0.1;
+local learning_rate = 0.03;
 
 {
     "dataset_reader": {
         "type": "custom-dataset-reader",
         "token_indexers": {
-            "token_characters": { "type": "characters" }
+            "token_characters": {
+                "type": "characters"
+            }
         }
     },
     "model": {
@@ -49,9 +51,10 @@ local learning_rate = 0.1;
     "trainer": {
         "num_epochs": num_epochs,
         "optimizer": {
-            "type": "sgd",
+            "type": "adam",
             "lr": learning_rate
         },
-        "patience": patience
+        "patience": patience,
+        "validation_metric": "+f1_macro"
     }
 }

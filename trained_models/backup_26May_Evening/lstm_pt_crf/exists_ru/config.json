@@ -1,0 +1,48 @@
+{
+    "dataset_reader": {
+        "type": "custom-dataset-reader",
+        "token_indexers": {
+            "token_characters": {
+                "type": "characters"
+            }
+        }
+    },
+    "iterator": {
+        "type": "basic",
+        "batch_size": 100
+    },
+    "model": {
+        "type": "crf_tagger_f1",
+        "encoder": {
+            "type": "pass_through",
+            "input_dim": 40
+        },
+        "text_field_embedder": {
+            "token_characters": {
+                "type": "character_encoding",
+                "embedding": {
+                    "embedding_dim": 20
+                },
+                "encoder": {
+                    "type": "lstm",
+                    "bidirectional": true,
+                    "hidden_size": 20,
+                    "input_size": 20
+                }
+            }
+        }
+    },
+    "train_data_path": "temp/datasets/exists_ru/exists_ru_train.xlsx",
+    "validation_data_path": "temp/datasets/exists_ru/exists_ru_test.xlsx",
+    "trainer": {
+        "num_epochs": 500,
+        "optimizer": {
+            "type": "sgd",
+            "lr": 0.1
+        },
+        "patience": 10
+    },
+    "vocabulary": {
+        "directory_path": "temp/datasets/exists_ru/lstm_pt_crf/vocabulary"
+    }
+}

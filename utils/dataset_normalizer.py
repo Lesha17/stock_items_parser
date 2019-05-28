@@ -26,7 +26,7 @@ print(replace_dot_in_words('22.18'))
 print(replace_dot_in_words('дер .полн'))
 
 def replace_x_in_numbers(s):
-    return re.sub(r'(\d ?)[xх]( ?\d)', r'\1*\2', s)
+    return re.sub(r'(\d\s?)[xх](\s?\d)', r'\1 * \2', s)
 
 replace_x_in_numbers('22 x18')
 
@@ -50,12 +50,6 @@ def separate_words_and_numbers(s):
     s = re.sub(r'(\d)([^(\W|\d)])', r'\1 \2', s)
     return s
 
-def split(s):
-    s = separate_words_and_numbers(s)
-
-    tokens = re.split(' |\n|;|,|"|-|\\*', s)
-    return [t for t in tokens if t is not None and t != '']
-
 def prepare_value(s):
     s = s.lower()
     s = replace_comma_in_numbers(s)
@@ -63,7 +57,14 @@ def prepare_value(s):
     s = replace_slash_in_words(s)
     s = replace_slash_in_numbers(s)
     s = replace_dot_in_words(s)
+    s = separate_words_and_numbers(s)
     return s
+
+def split(s):
+    s = prepare_value(s)
+
+    tokens = re.split(r'\s|\n|;|,|"|-|\*|\(|\)', s)
+    return [t for t in tokens if t is not None and t != '']
 
 
 def parse_prelabeled(s):
@@ -187,14 +188,14 @@ def extract_char_positions(title_raw, char_value,
     return None, None, None
 
 
-def get_char_value_if_need_extracting(row, char_name, extracted_chars):
+def get_char_value_if_need_extracting(row, char_name, original_char_name, extracted_chars):
     if char_name in extracted_chars:
-        return (None)
-    if pd.isna(row[char_name]):
-        return (None)
-    char_value = str(row[char_name])
-    if not char_name or char_name == '':
-        return (None)
+        return None
+    if pd.isna(row[original_char_name]):
+        return None
+    char_value = str(row[original_char_name])
+    if not char_value or char_value == '':
+        return None
     return char_value
 
 
@@ -225,10 +226,20 @@ class DatasetNormalizer:
         self.characteristics = characteristics
         self.attributes = attributes
         self.attr_yes_values = attr_yes_values
+        self.all_chars = {}
+        self.columns = []
+        for char_name, originals in self.characteristics.items():
+            for original_char_name in originals:
+                self.all_chars[original_char_name] = char_name
+            self.columns.append(char_name)
+        for char_name in self.attributes:
+            self.all_chars[char_name] = char_name
+            self.columns.append(char_name)
 
     def normalize(self, input_file, output_dir, dataset_name):
+
         df = pd.read_excel(input_file)
-        result_df = pd.DataFrame(columns=['title', 'title_labeled'] + self.characteristics + self.attributes)
+        result_df = pd.DataFrame(columns=['title', 'title_labeled'] + self.columns)
         to_resolve_df = pd.DataFrame(columns=['title', 'char_name', 'char_value'])
 
         for index, row in df.iterrows():
@@ -245,32 +256,33 @@ class DatasetNormalizer:
 
             max_step = 3
             for step in range(max_step + 1):
-                for char_name in self.characteristics:
-                    char_value = get_char_value_if_need_extracting(row, char_name, positions)
-                    if char_value:
-                        start, end, to_resolve = extract_char_positions(title_raw, char_value, step, max_step, title_intersects)
-                        to_resolve_df = fill(title_raw, char_name, start, end, positions, title_intersects, to_resolve,
+                for char_name, originals in self.characteristics.items():
+                    for original_char_name in originals:
+                        char_value = get_char_value_if_need_extracting(row, char_name, original_char_name, positions)
+                        if char_value:
+                            start, end, to_resolve = extract_char_positions(title_raw, char_value, step, max_step, title_intersects)
+                            to_resolve_df = fill(title_raw, char_name, start, end, positions, title_intersects, to_resolve,
                                              to_resolve_df, char_value)
 
                 for char_name in self.attributes:
-                    char_value = get_char_value_if_need_extracting(row, char_name, positions)
+                    char_value = get_char_value_if_need_extracting(row, char_name, char_name, positions)
                     if char_value:
                         if char_value.lower() in self.attr_yes_values:
                             start, end, to_resolve = extract_char_positions(title_raw, char_name, step, max_step, title_intersects)
                             to_resolve_df = fill(title_raw, char_name, start, end, positions, title_intersects, to_resolve,
                                                  to_resolve_df, char_name)
 
-            for c in self.characteristics + self.attributes:
-                if not pd.isna(row[c]):
-                    result_row[c] = row[c]
+            for original_char_name, char_name in self.all_chars.items():
+                if not pd.isna(row[original_char_name]):
+                    result_row[char_name] = row[original_char_name]
 
             result_row['title_labeled'] = get_labeled_tittle(title_raw, positions)
             result_df = result_df.append(result_row, ignore_index=True)
 
-            for char_name in self.characteristics + self.attributes:
+            for original_char_name, char_name in self.all_chars.items():
                 if char_name in positions:
                     continue
-                char_value = get_char_value_if_need_extracting(row, char_name, positions)
+                char_value = get_char_value_if_need_extracting(row, char_name, original_char_name, positions)
                 if char_value and char_name not in positions:
                     to_resolve_df = to_resolve_df.append({'title': title_raw, 'char_name': char_name,
                                                           'char_value': None,

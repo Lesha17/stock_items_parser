@@ -4,16 +4,19 @@ local word_embedding_dim = 40;
 local encoder_input_dim = word_embedding_dim;
 local hidden_dim = 100;
 
-local num_epochs = 500;
+local num_epochs = 40;
 local patience = 10;
 local batch_size = 100;
-local learning_rate = 0.1;
+local learning_rate = 0.01;
 
 {
     "dataset_reader": {
         "type": "custom-dataset-reader",
         "token_indexers": {
-            "token_characters": { "type": "characters" }
+            "token_characters": {
+                "type": "characters",
+                "min_padding_length": 3
+            }
         }
     },
     "model": {
@@ -48,6 +51,7 @@ local learning_rate = 0.1;
             "type": "adam",
             "lr": learning_rate
         },
-        "patience": patience
+        "patience": patience,
+        "validation_metric": "+f1_macro" # Добавил после запуска обучалки
     }
 }
