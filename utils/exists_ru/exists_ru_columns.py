@@ -4,7 +4,7 @@ CHARACTERISTICS_LIST = [
     'Цвет производителя', 'Код цвета', 'Обод'
 ]
 
-CHARACTERISTICS = { char_name : char_name for char_name in CHARACTERISTICS_LIST}
+CHARACTERISTICS = { char_name : [char_name] for char_name in CHARACTERISTICS_LIST}
 
 ATTRIBUTES = [
     'RunFlat', 'Шипы'
