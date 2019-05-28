@@ -17,14 +17,11 @@ def replace_comma_in_numbers(s):
 def replace_dot_in_words(s):
     return re.sub(r'([^(\W|\d)] ?)\.( ?[^(\W|\d)])', r'\1 \2', s)
 
-print(replace_comma_in_numbers('22,18'))
-print(replace_dot_in_words('22.18'))
-print(replace_dot_in_words('дер .полн'))
-
-def replace_x_in_numbers(s):
-    return re.sub(r'(\d\s?)[xх](\s?\d)', r'\1 * \2', s)
-
-replace_x_in_numbers('22 x18')
+def replace_x_in_numbers(s, stable = True):
+    if stable:
+        return re.sub(r'(\d\s?)[xх](\s?\d)', r'\1*\2', s)
+    else:
+        return re.sub(r'(\d\s?)[xх](\s?\d)', r'\1 * \2', s)
 
 def replace_slash_in_words(s):
     return re.sub(r'([^(\W|\d)] ?)/( ?[^(\W|\d)])', r'\1 \2', s)
