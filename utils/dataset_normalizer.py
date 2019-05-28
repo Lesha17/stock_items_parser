@@ -33,10 +33,15 @@ def replace_slash_in_numbers(s):
     return re.sub(r'(\d ?)/( ?\d)', r'\1 \2', s)
 
 def surround_with_spaces(s, regex, char):
-    return re.sub(r'(\w ?)' + regex + '( ?\w)', r'\1 ' + char + r' \2', s)
+    s = re.sub(r'(\w\s?)' + regex, r'\1 ' + char, s)
+    s = re.sub(regex + r'(\s?\w)', char + r' \1', s)
+    return s
 
 def surround_with_spaces_words(s, regex, char):
-    return re.sub(r'([^(\W|\d)] ?)' + regex + '( ?[^(\W|\d)])', r'\1 ' + char + r' \2', s)
+    return re.sub(r'([^(\W|\d)] ?)' + regex + r'( ?[^(\W|\d)])', r'\1 ' + char + r' \2', s)
+
+def surround_with_spaces_numbers(s, regex, char):
+    return re.sub(r'(\d\s?)' + regex + r'(\s?\d)', r'\1 ' + char + r' \2', s)
 
 def separate_words_and_numbers(s):
     s = re.sub(r'([^(\W|\d)])(\d)', r'\1 \2', s)
