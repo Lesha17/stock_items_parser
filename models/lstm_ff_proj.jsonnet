@@ -4,10 +4,10 @@ local word_embedding_dim = 20;
 local encoder_input_dim = 2 * word_embedding_dim;
 local hidden_dim = 100;
 
-local num_epochs = 80;
+local num_epochs = 40;
 local patience = 10;
 local batch_size = 100;
-local learning_rate = 0.03;
+local learning_rate = 0.01;
 
 {
     "dataset_reader": {

@@ -6,10 +6,6 @@ If there is title_prelabaled, it would be used
 
 Purpose is to extract those values.
 
-# TODO
-1. Common arch DONE
-2. Check parsing on all characteristics
-
 '''
 
 import pandas as pd
@@ -58,6 +54,15 @@ def prepare_value(s):
     s = replace_slash_in_numbers(s)
     s = replace_dot_in_words(s)
     s = separate_words_and_numbers(s)
+    return s
+
+def prepare_stable(s):
+    s = s.lower()
+    s = replace_comma_in_numbers(s)
+    s = replace_x_in_numbers(s)
+    s = replace_slash_in_words(s)
+    s = replace_slash_in_numbers(s)
+    s = replace_dot_in_words(s)
     return s
 
 def split(s):
@@ -134,11 +139,10 @@ def extract_char_positions(title_raw, char_value,
                            step, max_step, title_intersects):
     extracted_char_positions = []
 
-    title = prepare_value(title_raw)
-    title_tokens = split(title)
-    title_token_positions = get_title_token_positions(title, title_tokens)
+    title_tokens = split(title_raw)
+    title_token_positions = get_title_token_positions(prepare_stable(title_raw), title_tokens)
 
-    char_value_tokens = split(prepare_value(char_value))
+    char_value_tokens = split(char_value)
 
     for i in range(len(title_tokens)):
         extracted_token_indices = []
