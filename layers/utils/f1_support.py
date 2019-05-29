@@ -15,6 +15,7 @@ def get_metrics(obj, reset):
     for name, metric_value in metrics.items():
         if name in obj.f1_metric_names:
             if obj._verbose_metrics:
+                precision, recall, f1_measure = metric_value
                 result[name] = f1_measure
         else:
             result[name] = metric_value

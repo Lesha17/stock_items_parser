@@ -5,6 +5,7 @@ from allennlp.data import DatasetReader, TokenIndexer, Token, Instance
 from allennlp.data.fields import TextField, SequenceLabelField, ArrayField
 from allennlp.data.token_indexers import SingleIdTokenIndexer
 
+from layers.utils.CustomSequenceLabel import CustomSequenceLabelField
 from layers.utils.split_utils import *
 
 @DatasetReader.register('custom-dataset-reader')
@@ -18,7 +19,7 @@ class CustomDataReader(DatasetReader):
         fields = {"tokens": sentence_field}
 
         if tags:
-            label_field = SequenceLabelField(labels=tags, sequence_field=sentence_field)
+            label_field = CustomSequenceLabelField(labels=tags, sequence_field=sentence_field)
             fields["tags"] = label_field
 
         return Instance(fields)

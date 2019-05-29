@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
-# 0_001
+# 0.0001
+
+models/eval.sh cnn_ff_proj exists_ru/0_0001 output/eval
+models/eval.sh cnn_pt_crf exists_ru/0_0001 output/eval
+models/eval.sh cnn_lstm_proj exists_ru/0_0001 output/eval
+models/eval.sh cnn_lstm_crf exists_ru/0_0001 output/eval
+
+models/eval.sh lstm_ff_proj exists_ru/0_0001 output/eval
+models/eval.sh lstm_pt_crf exists_ru/0_0001 output/eval
+models/eval.sh lstm_lstm_proj exists_ru/0_0001 output/eval
+models/eval.sh lstm_lstm_crf exists_ru/0_0001 output/eval
+
+# 0.001
 
 models/eval.sh cnn_ff_proj exists_ru/0_001 output/eval
 models/eval.sh cnn_pt_crf exists_ru/0_001 output/eval
@@ -11,16 +23,6 @@ models/eval.sh lstm_ff_proj exists_ru/0_001 output/eval
 models/eval.sh lstm_pt_crf exists_ru/0_001 output/eval
 models/eval.sh lstm_lstm_proj exists_ru/0_001 output/eval
 models/eval.sh lstm_lstm_crf exists_ru/0_001 output/eval
-
-models/eval.sh cnn_ff_proj krepmarket/0_001 output/eval
-models/eval.sh cnn_pt_crf krepmarket/0_001 output/eval
-models/eval.sh cnn_lstm_proj krepmarket/0_001 output/eval
-models/eval.sh cnn_lstm_crf krepmarket/0_001 output/eval
-
-models/eval.sh lstm_ff_proj krepmarket/0_001 output/eval
-models/eval.sh lstm_pt_crf krepmarket/0_001 output/eval
-models/eval.sh lstm_lstm_proj krepmarket/0_001 output/eval
-models/eval.sh lstm_lstm_crf krepmarket/0_001 output/eval
 
 # 0.01
 
